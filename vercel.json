@@ -1,13 +1,24 @@
 {
-  "builds": [{
-      "src": "graTerenowa/wsgi.py",
-      "use": "@vercel/python",
-      "config": { "maxLambdaSize": "15mb", "runtime": "python3.12" }
-  }],
-  "routes": [
+    "builds": [
       {
-          "src": "/(.*)",
-          "dest": "graTerenowa/wsgi.py"
+        "src": "graTerenowa/wsgi.py",
+        "use": "@vercel/python",
+        "config": { "maxLambdaSize": "15mb", "runtime": "python3.12" }
+      },
+      {
+        "src": "staticfiles/**/*",
+        "use": "@vercel/static"
       }
-  ]
-}
+    ],
+    "routes": [
+      {
+        "src": "/static/(.*)",
+        "dest": "/staticfiles/$1"
+      },
+      {
+        "src": "/(.*)",
+        "dest": "graTerenowa/wsgi.py"
+      }
+    ]
+  }
+  
