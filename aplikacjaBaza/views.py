@@ -11,7 +11,7 @@ from rest_framework.authtoken.models import Token
 import random
 from rest_framework.decorators import action
 from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 
 # Create your views here.
 
@@ -19,9 +19,12 @@ class UsersViewSet(viewsets.ModelViewSet):
   #queryset=User.objects.all()
   serializer_class=UsersSerializer
   authentication_classes = [TokenAuthentication]
-  permission_classes = [IsAuthenticated]
   queryset = User.objects.all()
-  
+
+  def get_permissions(self):
+    if self.action == 'create':
+      return [AllowAny()]
+    return [IsAuthenticated()]  
 
 class LocationsViewSet(viewsets.ModelViewSet):
   authentication_classes = [TokenAuthentication]
